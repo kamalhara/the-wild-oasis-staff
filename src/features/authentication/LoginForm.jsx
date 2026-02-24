@@ -6,6 +6,10 @@ import FormRowVertical from "../../ui/FormRowVertical";
 import SpinnerMini from "../../ui/SpinnerMini";
 import { useLogin } from "./useLogin";
 
+// Demo credentials for portfolio visitors
+const DEMO_EMAIL = "kamalhara7@gmail.com";
+const DEMO_PASSWORD = "wild1234";
+
 function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -25,13 +29,16 @@ function LoginForm() {
     );
   }
 
+  function handleGuestLogin() {
+    login({ email: DEMO_EMAIL, password: DEMO_PASSWORD });
+  }
+
   return (
     <Form onSubmit={handleSubmit}>
       <FormRowVertical label="Email address">
         <Input
           type="email"
           id="email"
-          // This makes this form better for password managers
           autoComplete="username"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -52,6 +59,17 @@ function LoginForm() {
       <FormRowVertical>
         <Button size="large" disabled={isLoading}>
           {!isLoading ? "Log in" : <SpinnerMini />}
+        </Button>
+      </FormRowVertical>
+      <FormRowVertical>
+        <Button
+          size="large"
+          variation="secondary"
+          type="button"
+          disabled={isLoading}
+          onClick={handleGuestLogin}
+        >
+          {!isLoading ? "👤 Login as Guest" : <SpinnerMini />}
         </Button>
       </FormRowVertical>
     </Form>
