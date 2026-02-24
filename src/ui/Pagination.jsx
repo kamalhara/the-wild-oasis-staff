@@ -29,7 +29,7 @@ const PaginationButton = styled.button`
     props.active ? " var(--color-brand-600)" : "var(--color-grey-50)"};
   color: ${(props) => (props.active ? " var(--color-brand-50)" : "inherit")};
   border: none;
-  border-radius: var(--border-radius-sm);
+  border-radius: var(--border-radius-md);
   font-weight: 500;
   font-size: 1.4rem;
 
@@ -38,7 +38,7 @@ const PaginationButton = styled.button`
   justify-content: center;
   gap: 0.4rem;
   padding: 0.6rem 1.2rem;
-  transition: all 0.3s;
+  transition: all 0.15s ease;
 
   &:has(span:last-child) {
     padding-left: 0.4rem;

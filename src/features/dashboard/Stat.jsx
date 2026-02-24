@@ -4,7 +4,7 @@ const StyledStat = styled.div`
   /* Box */
   background-color: var(--color-grey-0);
   border: 1px solid var(--color-grey-100);
-  border-radius: var(--border-radius-md);
+  border-radius: var(--border-radius-lg);
 
   padding: 1.6rem;
   display: grid;
@@ -12,6 +12,14 @@ const StyledStat = styled.div`
   grid-template-rows: auto auto;
   column-gap: 1.6rem;
   row-gap: 0.4rem;
+  transition:
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+
+  &:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-1px);
+  }
 `;
 
 const Icon = styled.div`
@@ -34,9 +42,9 @@ const Icon = styled.div`
 
 const Title = styled.h5`
   align-self: end;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   text-transform: uppercase;
-  letter-spacing: 0.4px;
+  letter-spacing: 0.05em;
   font-weight: 600;
   color: var(--color-grey-500);
 `;
@@ -44,7 +52,7 @@ const Title = styled.h5`
 const Value = styled.p`
   font-size: 2.4rem;
   line-height: 1;
-  font-weight: 500;
+  font-weight: 600;
 `;
 
 function Stat({ icon, title, value, color }) {

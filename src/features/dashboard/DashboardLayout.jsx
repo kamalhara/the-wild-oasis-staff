@@ -26,10 +26,10 @@ function DashboardLayout() {
 
   if (isLoading1 || isLoading2 || isLoading3) return <Spinner />;
 
-  // Use fake data if no real data exists
-  const hasRealBookings = Array.isArray(bookings) && bookings.length > 0;
+  // Use fake data if insufficient real data (for portfolio presentation)
+  const hasRealBookings = Array.isArray(bookings) && bookings.length >= 5;
   const hasRealStays =
-    Array.isArray(confirmedStays) && confirmedStays.length > 0;
+    Array.isArray(confirmedStays) && confirmedStays.length >= 5;
 
   const displayBookings = hasRealBookings
     ? bookings

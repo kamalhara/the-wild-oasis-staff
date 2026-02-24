@@ -1,8 +1,19 @@
 import { cloneElement, createContext, useContext, useState } from "react";
 import { createPortal } from "react-dom";
 import { HiXMark } from "react-icons/hi2";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { useOutsideClick } from "../hooks/useOutsideClick";
+
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+`;
 
 const StyledModal = styled.div`
   position: fixed;
@@ -13,7 +24,7 @@ const StyledModal = styled.div`
   border-radius: var(--border-radius-lg);
   box-shadow: var(--shadow-lg);
   padding: 3.2rem 4rem;
-  transition: all 0.5s;
+  animation: ${fadeIn} 0.2s ease-out;
 `;
 
 const Overlay = styled.div`
@@ -25,7 +36,7 @@ const Overlay = styled.div`
   background-color: var(--backdrop-color);
   backdrop-filter: blur(4px);
   z-index: 1000;
-  transition: all 0.5s;
+  transition: all 0.3s;
 `;
 
 const Button = styled.button`
@@ -34,7 +45,7 @@ const Button = styled.button`
   padding: 0.4rem;
   border-radius: var(--border-radius-sm);
   transform: translateX(0.8rem);
-  transition: all 0.2s;
+  transition: all 0.15s ease;
   position: absolute;
   top: 1.2rem;
   right: 1.9rem;
@@ -46,9 +57,6 @@ const Button = styled.button`
   & svg {
     width: 2.4rem;
     height: 2.4rem;
-    /* Sometimes we need both */
-    /* fill: var(--color-grey-500);
-    stroke: var(--color-grey-500); */
     color: var(--color-grey-500);
   }
 `;
@@ -90,7 +98,7 @@ function Window({ children, name }) {
         <div>{cloneElement(children, { onCloseModal: close })}</div>
       </StyledModal>
     </Overlay>,
-    document.body
+    document.body,
   );
 }
 

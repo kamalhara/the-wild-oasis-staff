@@ -6,7 +6,7 @@ const StyledTable = styled.div`
 
   font-size: 1.4rem;
   background-color: var(--color-grey-0);
-  border-radius: 7px;
+  border-radius: var(--border-radius-lg);
   overflow: hidden;
 `;
 
@@ -26,11 +26,17 @@ const StyledHeader = styled(CommonRow)`
   text-transform: uppercase;
   letter-spacing: 0.4px;
   font-weight: 600;
-  color: var(--color-grey-600);
+  font-size: 1.2rem;
+  color: var(--color-grey-500);
 `;
 
 const StyledRow = styled(CommonRow)`
   padding: 1.2rem 2.4rem;
+  transition: background-color 0.15s ease;
+
+  &:hover {
+    background-color: var(--color-grey-50);
+  }
 
   &:not(:last-child) {
     border-bottom: 1px solid var(--color-grey-100);
