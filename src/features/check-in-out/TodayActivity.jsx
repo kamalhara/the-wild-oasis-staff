@@ -6,6 +6,7 @@ import Row from "../../ui/Row";
 import { useTodayActivity } from "./useTodayActivity";
 import Spinner from "../../ui/Spinner";
 import TodayItem from "./TodayItem";
+import { fakeTodayActivities } from "../../data/fakeDashboardData";
 
 const StyledToday = styled.div`
   /* Box */
@@ -43,6 +44,12 @@ const NoActivity = styled.p`
 function TodayActivity() {
   const { activities, isLoading } = useTodayActivity();
 
+  // Use fake data if no real activities exist
+  const displayActivities =
+    Array.isArray(activities) && activities.length > 0
+      ? activities
+      : fakeTodayActivities;
+
   return (
     <StyledToday>
       <Row type="horizontal">
@@ -50,9 +57,9 @@ function TodayActivity() {
       </Row>
 
       {!isLoading ? (
-        activities?.length > 0 ? (
+        displayActivities.length > 0 ? (
           <TodayList>
-            {activities.map((activity) => (
+            {displayActivities.map((activity) => (
               <TodayItem activity={activity} key={activity.id} />
             ))}
           </TodayList>

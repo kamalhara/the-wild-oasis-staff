@@ -76,7 +76,7 @@ export async function getBookingsAfterDate(date) {
   if (!validDate) return [];
   const { data, error } = await supabase
     .from("bookings")
-    .select("created_at, totalPrice, extrasPrice")
+    .select("created_at, totalPrice, extraPrice")
     .gte("created_at", validDate.toISOString())
     .lte("created_at", today);
 

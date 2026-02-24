@@ -62,12 +62,12 @@ function SalesChart({ bookings, numDays }) {
       totalSales: bookingsOnDay.reduce(
         (acc, cur) =>
           acc + (typeof cur.totalPrice === "number" ? cur.totalPrice : 0),
-        0
+        0,
       ),
       extrasSales: bookingsOnDay.reduce(
         (acc, cur) =>
-          acc + (typeof cur.extrasPrice === "number" ? cur.extrasPrice : 0),
-        0
+          acc + (typeof cur.extraPrice === "number" ? cur.extraPrice : 0),
+        0,
       ),
     };
   });

@@ -34,8 +34,9 @@ const GlobalStyles = createGlobalStyle`
   --backdrop-color: rgba(255, 255, 255, 0.1);
 
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
-  --shadow-md: 0px 0.6rem 2.4rem rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 0.6rem 2.4rem rgba(0, 0, 0, 0.06);
   --shadow-lg: 0 2.4rem 3.2rem rgba(0, 0, 0, 0.12);
+  --shadow-hover: 0 0.8rem 2.8rem rgba(0, 0, 0, 0.1);
   
 
     --image-grayscale: 0;
@@ -73,8 +74,9 @@ const GlobalStyles = createGlobalStyle`
 --backdrop-color: rgba(0, 0, 0, 0.3);
 
 --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
---shadow-md: 0px 0.6rem 2.4rem rgba(0, 0, 0, 0.3);
+--shadow-md: 0 0.6rem 2.4rem rgba(0, 0, 0, 0.3);
 --shadow-lg: 0 2.4rem 3.2rem rgba(0, 0, 0, 0.4);
+--shadow-hover: 0 0.8rem 2.8rem rgba(0, 0, 0, 0.5);
 
 --image-grayscale: 10%;
 --image-opacity: 90%;
@@ -133,6 +135,7 @@ select {
 
 button {
   cursor: pointer;
+  transition: all 0.2s ease;
 }
 
 *:disabled {
@@ -183,6 +186,25 @@ img {
 
   /* For dark mode */
   filter: grayscale(var(--image-grayscale)) opacity(var(--image-opacity));
+}
+
+/* Smooth scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-grey-50);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--color-grey-300);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-grey-400);
 }
 
 `;

@@ -3,17 +3,31 @@ import { isFuture, isPast, isToday } from "date-fns";
 import supabase from "../services/supabase";
 import Button from "../ui/Button";
 import { subtractDates } from "../utils/helpers";
+import styled from "styled-components";
 
 import { bookings } from "./data-bookings";
 import { cabins } from "./data-cabins";
 import { guests } from "./data-guests";
 
-// const originalSettings = {
-//   minBookingLength: 3,
-//   maxBookingLength: 30,
-//   maxGuestsPerBooking: 10,
-//   breakfastPrice: 15,
-// };
+const StyledUploader = styled.div`
+  margin-top: auto;
+  background-color: var(--color-brand-100);
+  padding: 1.2rem;
+  border-radius: var(--border-radius-md);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`;
+
+const UploaderTitle = styled.h3`
+  font-size: 1.2rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--color-brand-700);
+  margin-bottom: 0.4rem;
+`;
 
 async function deleteGuests() {
   const { error } = await supabase.from("guests").delete().gt("id", 0);
@@ -41,7 +55,6 @@ async function createCabins() {
 }
 
 async function createBookings() {
-  // Bookings need a guestId and a cabinId. We can't tell Supabase IDs for each object, it will calculate them on its own. So it might be different for different people, especially after multiple uploads. Therefore, we need to first get all guestIds and cabinIds, and then replace the original IDs in the booking data with the actual ones from the DB
   const { data: guestsIds } = await supabase
     .from("guests")
     .select("id")
@@ -54,14 +67,13 @@ async function createBookings() {
   const allCabinIds = cabinsIds.map((cabin) => cabin.id);
 
   const finalBookings = bookings.map((booking) => {
-    // Here relying on the order of cabins, as they don't have and ID yet
     const cabin = cabins.at(booking.cabinId - 1);
     const numNights = subtractDates(booking.endDate, booking.startDate);
     const cabinPrice = numNights * (cabin.regularPrice - cabin.discount);
-    const extrasPrice = booking.hasBreakfast
+    const extraPrice = booking.hasBreakfast
       ? numNights * 15 * booking.numGuests
-      : 0; // hardcoded breakfast price
-    const totalPrice = cabinPrice + extrasPrice;
+      : 0;
+    const totalPrice = cabinPrice + extraPrice;
 
     let status;
     if (
@@ -86,7 +98,7 @@ async function createBookings() {
       ...booking,
       numNights,
       cabinPrice,
-      extrasPrice,
+      extraPrice,
       totalPrice,
       guestId: allGuestIds.at(booking.guestId - 1),
       cabinId: allCabinIds.at(booking.cabinId - 1),
@@ -105,12 +117,10 @@ function Uploader() {
 
   async function uploadAll() {
     setIsLoading(true);
-    // Bookings need to be deleted FIRST
     await deleteBookings();
     await deleteGuests();
     await deleteCabins();
 
-    // Bookings need to be created LAST
     await createGuests();
     await createCabins();
     await createBookings();
@@ -126,28 +136,22 @@ function Uploader() {
   }
 
   return (
-    <div
-      style={{
-        marginTop: "auto",
-        backgroundColor: "#e0e7ff",
-        padding: "8px",
-        borderRadius: "5px",
-        textAlign: "center",
-        display: "flex",
-        flexDirection: "column",
-        gap: "8px",
-      }}
-    >
-      <h3>SAMPLE DATA</h3>
+    <StyledUploader>
+      <UploaderTitle>Sample Data</UploaderTitle>
 
-      <Button onClick={uploadAll} disabled={isLoading}>
+      <Button size="small" onClick={uploadAll} disabled={isLoading}>
         Upload ALL
       </Button>
 
-      <Button onClick={uploadBookings} disabled={isLoading}>
+      <Button
+        size="small"
+        variation="secondary"
+        onClick={uploadBookings}
+        disabled={isLoading}
+      >
         Upload bookings ONLY
       </Button>
-    </div>
+    </StyledUploader>
   );
 }
 

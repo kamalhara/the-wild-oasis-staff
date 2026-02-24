@@ -7,6 +7,10 @@ import { useCabins } from "../cabins/useCabins";
 import SalesChart from "./SalesChart";
 import DurationChart from "./DurationChart";
 import TodayActivity from "../check-in-out/TodayActivity";
+import {
+  getFakeBookings,
+  fakeConfirmedStays,
+} from "../../data/fakeDashboardData";
 
 const StyledDashboardLayout = styled.div`
   display: grid;
@@ -22,17 +26,29 @@ function DashboardLayout() {
 
   if (isLoading1 || isLoading2 || isLoading3) return <Spinner />;
 
+  // Use fake data if no real data exists
+  const hasRealBookings = Array.isArray(bookings) && bookings.length > 0;
+  const hasRealStays =
+    Array.isArray(confirmedStays) && confirmedStays.length > 0;
+
+  const displayBookings = hasRealBookings
+    ? bookings
+    : getFakeBookings(numDays || 30);
+  const displayStays = hasRealStays ? confirmedStays : fakeConfirmedStays;
+  const displayNumDays = numDays || 30;
+  const displayCabinCount = cabins?.length ?? 8;
+
   return (
     <StyledDashboardLayout>
       <Stats
-        bookings={bookings}
-        confirmedStays={confirmedStays}
-        numDays={numDays}
-        cabinCount={cabins?.length ?? 0}
+        bookings={displayBookings}
+        confirmedStays={displayStays}
+        numDays={displayNumDays}
+        cabinCount={displayCabinCount}
       />
       <TodayActivity />
-      <DurationChart confirmedStays={confirmedStays} />
-      <SalesChart bookings={bookings} numDays={numDays} />
+      <DurationChart confirmedStays={displayStays} />
+      <SalesChart bookings={displayBookings} numDays={displayNumDays} />
     </StyledDashboardLayout>
   );
 }
